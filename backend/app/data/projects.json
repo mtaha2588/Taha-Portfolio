@@ -14,23 +14,67 @@
     "architecture": {
       "overview": "The system is organised as a batch processing pipeline feeding a lightweight API and a map-based frontend. Heavy geospatial computation happens offline; the web layer only serves pre-computed results.",
       "layers": [
-        { "name": "Data Sources", "items": ["Digital Elevation Model (DEM)", "Satellite imagery", "Weather observations"] },
-        { "name": "Processing", "items": ["Raster preprocessing & reprojection", "Terrain features: slope, aspect, curvature", "Feature engineering"] },
-        { "name": "Machine Learning", "items": ["Random Forest classifier", "SVM classifier", "Model evaluation & comparison"] },
+        {
+          "name": "Data Sources",
+          "items": ["Digital Elevation Model (DEM)", "Satellite imagery", "Weather observations"]
+        },
+        {
+          "name": "Processing",
+          "items": [
+            "Raster preprocessing & reprojection",
+            "Terrain features: slope, aspect, curvature",
+            "Feature engineering"
+          ]
+        },
+        {
+          "name": "Machine Learning",
+          "items": ["Random Forest classifier", "SVM classifier", "Model evaluation & comparison"]
+        },
         { "name": "Delivery", "items": ["Python API for map layers", "Interactive web map", "Layer & legend controls"] }
       ]
     },
-    "technologies": ["Python", "Scikit-learn", "Random Forest", "SVM", "Satellite data", "DEM", "Geospatial data processing", "Interactive mapping", "REST APIs"],
+    "technologies": [
+      "Python",
+      "Scikit-learn",
+      "Random Forest",
+      "SVM",
+      "Satellite data",
+      "DEM",
+      "Geospatial data processing",
+      "Interactive mapping",
+      "REST APIs"
+    ],
     "features": [
-      { "title": "Terrain feature extraction", "description": "Derives slope angle, aspect and curvature from elevation data, which are the core terrain variables used in avalanche assessment." },
-      { "title": "Satellite data integration", "description": "Brings satellite-derived information into the same spatial grid as the terrain model so every location has a consistent set of features." },
-      { "title": "ML susceptibility classification", "description": "Trains and compares Random Forest and SVM models to classify terrain into susceptibility categories." },
-      { "title": "Interactive risk map", "description": "Displays model output as toggleable map layers with a clear legend, so results can be explored by location." }
+      {
+        "title": "Terrain feature extraction",
+        "description": "Derives slope angle, aspect and curvature from elevation data, which are the core terrain variables used in avalanche assessment."
+      },
+      {
+        "title": "Satellite data integration",
+        "description": "Brings satellite-derived information into the same spatial grid as the terrain model so every location has a consistent set of features."
+      },
+      {
+        "title": "ML susceptibility classification",
+        "description": "Trains and compares Random Forest and SVM models to classify terrain into susceptibility categories."
+      },
+      {
+        "title": "Interactive risk map",
+        "description": "Displays model output as toggleable map layers with a clear legend, so results can be explored by location."
+      }
     ],
     "challenges": [
-      { "title": "Aligning heterogeneous data", "description": "DEMs, satellite rasters and weather data come with different resolutions, projections and time stamps. Aligning them correctly onto one grid is a core part of the work." },
-      { "title": "Limited and imbalanced labels", "description": "Recorded avalanche events are rare compared with stable terrain, which makes training data imbalanced and requires careful evaluation rather than relying on a single accuracy number." },
-      { "title": "Communicating uncertainty", "description": "Model outputs are a decision-support aid, not a safety guarantee. The interface needs to communicate that clearly." }
+      {
+        "title": "Aligning heterogeneous data",
+        "description": "DEMs, satellite rasters and weather data come with different resolutions, projections and time stamps. Aligning them correctly onto one grid is a core part of the work."
+      },
+      {
+        "title": "Limited and imbalanced labels",
+        "description": "Recorded avalanche events are rare compared with stable terrain, which makes training data imbalanced and requires careful evaluation rather than relying on a single accuracy number."
+      },
+      {
+        "title": "Communicating uncertainty",
+        "description": "Model outputs are a decision-support aid, not a safety guarantee. The interface needs to communicate that clearly."
+      }
     ],
     "learnings": [
       "Working with raster geospatial data, coordinate reference systems and reprojection",
@@ -56,22 +100,59 @@
       "overview": "A Python service hosts the agent loop. The LLM decides which tool to call next; each tool is a small, tested Python function with a strict input schema. A workflow layer handles triggers, retries and logging.",
       "layers": [
         { "name": "Triggers", "items": ["Scheduled jobs", "Webhooks & events", "Manual requests"] },
-        { "name": "Agent Core", "items": ["LLM reasoning (OpenAI / Claude API)", "Task planning", "Tool selection & calling"] },
-        { "name": "Tools & Integrations", "items": ["REST API connectors", "Data processing functions", "Document & report generation"] },
+        {
+          "name": "Agent Core",
+          "items": ["LLM reasoning (OpenAI / Claude API)", "Task planning", "Tool selection & calling"]
+        },
+        {
+          "name": "Tools & Integrations",
+          "items": ["REST API connectors", "Data processing functions", "Document & report generation"]
+        },
         { "name": "Output & Oversight", "items": ["Structured reports", "Run logs & audit trail", "Human review step"] }
       ]
     },
-    "technologies": ["Python", "LLMs", "OpenAI API", "Claude API", "AI agents", "Workflow automation", "API integration", "REST APIs", "FastAPI"],
+    "technologies": [
+      "Python",
+      "LLMs",
+      "OpenAI API",
+      "Claude API",
+      "AI agents",
+      "Workflow automation",
+      "API integration",
+      "REST APIs",
+      "FastAPI"
+    ],
     "features": [
-      { "title": "Tool-calling agent", "description": "The LLM selects from a defined set of tools with validated inputs instead of producing free-form actions." },
-      { "title": "API integrations", "description": "Connectors for external services let the agent read and write data where the business already works." },
-      { "title": "Intelligent reporting", "description": "Collected data is summarised into structured, readable reports generated automatically." },
-      { "title": "Logging & human review", "description": "Every run is logged step by step, and sensitive outputs can require approval before they are sent." }
+      {
+        "title": "Tool-calling agent",
+        "description": "The LLM selects from a defined set of tools with validated inputs instead of producing free-form actions."
+      },
+      {
+        "title": "API integrations",
+        "description": "Connectors for external services let the agent read and write data where the business already works."
+      },
+      {
+        "title": "Intelligent reporting",
+        "description": "Collected data is summarised into structured, readable reports generated automatically."
+      },
+      {
+        "title": "Logging & human review",
+        "description": "Every run is logged step by step, and sensitive outputs can require approval before they are sent."
+      }
     ],
     "challenges": [
-      { "title": "Reliability of LLM output", "description": "LLMs can produce inconsistent output. Strict tool schemas, validation and retries are needed to keep the workflow predictable." },
-      { "title": "Safe tool access", "description": "An agent should only have the permissions a task requires. Scoping credentials and actions is part of the design." },
-      { "title": "Cost and latency", "description": "Each model call costs time and money, so workflows have to be designed to use the model only where it adds value." }
+      {
+        "title": "Reliability of LLM output",
+        "description": "LLMs can produce inconsistent output. Strict tool schemas, validation and retries are needed to keep the workflow predictable."
+      },
+      {
+        "title": "Safe tool access",
+        "description": "An agent should only have the permissions a task requires. Scoping credentials and actions is part of the design."
+      },
+      {
+        "title": "Cost and latency",
+        "description": "Each model call costs time and money, so workflows have to be designed to use the model only where it adds value."
+      }
     ],
     "learnings": [
       "Designing tool interfaces that LLMs can use reliably",
@@ -96,23 +177,53 @@
     "architecture": {
       "overview": "A server-rendered Flask application backed by a relational database, with background automation jobs and optional AI services for working with inquiry text.",
       "layers": [
-        { "name": "Customer Web App", "items": ["Vehicle listings & search", "Vehicle detail pages", "Inquiry & test-drive forms"] },
-        { "name": "Flask Backend", "items": ["Routes & business logic", "Form validation", "Authentication for staff"] },
+        {
+          "name": "Customer Web App",
+          "items": ["Vehicle listings & search", "Vehicle detail pages", "Inquiry & test-drive forms"]
+        },
+        {
+          "name": "Flask Backend",
+          "items": ["Routes & business logic", "Form validation", "Authentication for staff"]
+        },
         { "name": "Data", "items": ["SQL database", "Vehicles, leads & activity models"] },
-        { "name": "Automation & AI", "items": ["Lead notifications", "Follow-up reminders", "AI-assisted inquiry summaries"] }
+        {
+          "name": "Automation & AI",
+          "items": ["Lead notifications", "Follow-up reminders", "AI-assisted inquiry summaries"]
+        }
       ]
     },
     "technologies": ["Python", "Flask", "SQL", "HTML", "CSS", "JavaScript", "REST APIs", "Workflow automation", "LLMs"],
     "features": [
-      { "title": "Vehicle catalogue", "description": "Searchable listings with detail pages so customers can browse available inventory." },
-      { "title": "Lead capture", "description": "Inquiry and test-drive forms create structured lead records automatically instead of scattered messages." },
-      { "title": "Lead management dashboard", "description": "Staff can see every lead, its status and its history in one place." },
-      { "title": "Sales automation", "description": "Automatic notifications and follow-up reminders reduce the chance of a lead being forgotten." }
+      {
+        "title": "Vehicle catalogue",
+        "description": "Searchable listings with detail pages so customers can browse available inventory."
+      },
+      {
+        "title": "Lead capture",
+        "description": "Inquiry and test-drive forms create structured lead records automatically instead of scattered messages."
+      },
+      {
+        "title": "Lead management dashboard",
+        "description": "Staff can see every lead, its status and its history in one place."
+      },
+      {
+        "title": "Sales automation",
+        "description": "Automatic notifications and follow-up reminders reduce the chance of a lead being forgotten."
+      }
     ],
     "challenges": [
-      { "title": "Modelling the sales pipeline", "description": "Lead stages and status transitions need to match how a dealership actually works, which shapes the data model." },
-      { "title": "Useful, not intrusive, automation", "description": "Reminders and notifications should help staff without creating noise or spamming customers." },
-      { "title": "Data quality", "description": "Form validation and duplicate handling keep the lead database clean and trustworthy." }
+      {
+        "title": "Modelling the sales pipeline",
+        "description": "Lead stages and status transitions need to match how a dealership actually works, which shapes the data model."
+      },
+      {
+        "title": "Useful, not intrusive, automation",
+        "description": "Reminders and notifications should help staff without creating noise or spamming customers."
+      },
+      {
+        "title": "Data quality",
+        "description": "Form validation and duplicate handling keep the lead database clean and trustworthy."
+      }
     ],
     "learnings": [
       "Structuring a Flask application with clear separation of routes, models and services",
