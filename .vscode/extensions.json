@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "eamodio.gitlens",
+    "usernamehw.errorlens",
+    "christian-kohler.path-intellisense",
+    "mikestead.dotenv",
+    "jock.svg",
+    "bhushanwagh.three-shader-reader",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "humao.rest-client"
+  ]
+}

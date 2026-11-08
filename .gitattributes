@@ -1,0 +1,5 @@
+# Keep Unix line endings in the repo (deploys run on Linux; matches .vscode "files.eol").
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.pdf binary

@@ -1,0 +1,51 @@
+# Render Blueprint: deploys the FastAPI backend + a PostgreSQL database.
+# Render dashboard → New → Blueprint → select this GitHub repo.
+# Values marked `sync: false` are prompted for during setup (never commit secrets).
+services:
+  - type: web
+    name: ai-universe-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.10"
+      - key: APP_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "true"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ai-universe-db
+          property: connectionString
+      # Your Vercel URL, e.g. https://your-portfolio.vercel.app (comma-separate several)
+      - key: CORS_ORIGINS
+        sync: false
+      # Optional: allow Vercel preview deployments, e.g. ^https://your-portfolio-[a-z0-9-]+\.vercel\.app$
+      - key: CORS_ORIGIN_REGEX
+        sync: false
+      # Random key protecting GET /api/contact/messages (shown in the Render dashboard)
+      - key: ADMIN_API_KEY
+        generateValue: true
+      # Optional email notifications for new contact messages
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+      - key: CONTACT_NOTIFY_EMAIL
+        sync: false
+
+databases:
+  - name: ai-universe-db
+    plan: free
+    databaseName: portfolio

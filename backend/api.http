@@ -1,0 +1,19 @@
+# REST Client requests: click "Send Request" above each block in VS Code.
+# These endpoints become available once the backend app is built (next stage).
+@base = http://localhost:8000
+
+### Health check
+GET {{base}}/api/health
+
+### List public project information
+GET {{base}}/api/projects
+
+### Submit a contact message
+POST {{base}}/api/contact
+Content-Type: application/json
+
+{
+  "name": "Test Visitor",
+  "email": "visitor@example.com",
+  "message": "Hello! This is a test message from the REST Client."
+}

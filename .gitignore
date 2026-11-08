@@ -1,0 +1,24 @@
+# Dependencies & builds
+node_modules/
+dist/
+.vite/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Local databases
+*.db
+*.sqlite3
+
+# Secrets: commit only the .env.example files
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
