@@ -27,7 +27,7 @@ export const STATIONS = [
     mobile: { pos: [0, 27, 54], target: [0, -10, -8] },
   },
   { id: "avalanche", label: "Avalanche Intelligence", ...exhibitPose(EXHIBITS.avalanche) },
-  { id: "agent", label: "Automation Agent", ...exhibitPose(EXHIBITS.agent, { lift: 1.2 }) },
+  { id: "agent", label: "Automation Agent", ...exhibitPose(EXHIBITS.agent, { lift: 1.6, desktopShift: 2.6 }) },
   { id: "car", label: "Car Sales Platform", ...exhibitPose(EXHIBITS.car, { lift: 0.9 }) },
   { id: "lab", label: "AI Workflow Lab", ...exhibitPose(ENV.lab, { desktopShift: 6, lift: 0.5 }) },
   { id: "skills", label: "Skills Constellation", ...exhibitPose(ENV.skills, { desktopShift: 9.5, lift: 0 }) },

@@ -89,7 +89,7 @@ export default function Hud() {
                   {activeId === s.id && (
                     <m.span
                       layoutId="hud-pill"
-                      className="absolute inset-0 -z-10 rounded-full border border-cyan/30 bg-cyan/10"
+                      className="absolute inset-0 -z-10 rounded-full border border-holo-cyan/50 bg-gradient-to-r from-holo-cyan/20 via-holo-blue/20 to-holo-purple/25 shadow-[0_0_18px_-2px_rgba(0,229,255,0.55)]"
                       transition={{ type: "spring", stiffness: 380, damping: 32 }}
                     />
                   )}

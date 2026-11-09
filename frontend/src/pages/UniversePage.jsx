@@ -96,7 +96,7 @@ export default function UniversePage() {
         <HeroSection />
         <ExhibitionsOverview />
         <ExhibitSection ex={EXHIBITS.avalanche} station={2} number="01" demo={<SlopeAssessor />} />
-        <ExhibitSection ex={EXHIBITS.agent} station={3} number="02" demo={<WorkflowRunner />} />
+        <ExhibitSection ex={EXHIBITS.agent} station={3} number="02" demo={<WorkflowRunner />} variant="holo" />
         <ExhibitSection ex={EXHIBITS.car} station={4} number="03" demo={<LeadSimulator />} />
         <LabSection />
         <SkillsSection />
