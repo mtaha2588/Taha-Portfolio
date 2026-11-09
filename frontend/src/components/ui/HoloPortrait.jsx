@@ -13,7 +13,7 @@ import { profile } from "../../data/profile";
  * natural and professional. Tilt and motion are off for touch devices
  * and reduced-motion users.
  */
-export default function HoloPortrait({ className = "" }) {
+export default function HoloPortrait({ className = "", large = false }) {
   const reduce = useReducedMotion();
   const uid = useId().replace(/:/g, "");
   const scene = useRef(null);
@@ -118,12 +118,20 @@ export default function HoloPortrait({ className = "" }) {
             <span className="hp-corner top-3 right-3 rounded-tr-md border-t-2 border-r-2" />
             <span className="hp-corner bottom-3 left-3 rounded-bl-md border-b-2 border-l-2" />
             <span className="hp-corner right-3 bottom-3 rounded-br-md border-r-2 border-b-2" />
-            <p className="absolute top-5 left-6 font-mono text-[9px] tracking-[0.3em] text-holo-cyan uppercase">
+            <p
+              className={`absolute top-5 left-6 font-mono tracking-[0.3em] text-holo-cyan uppercase ${large ? "text-[10px]" : "text-[9px]"}`}
+            >
               Holo-ID · {profile.initials}-01
             </p>
-            <div className="hp-plate px-3.5 py-2.5">
-              <p className="font-display text-[15px] leading-tight font-semibold text-fg">{profile.name}</p>
-              <p className="mt-0.5 font-mono text-[9px] tracking-[0.14em] text-holo-cyan uppercase">
+            <div className={`hp-plate ${large ? "px-4 py-3" : "px-3.5 py-2.5"}`}>
+              <p
+                className={`font-display leading-tight font-semibold text-fg ${large ? "text-[18px]" : "text-[15px]"}`}
+              >
+                {profile.name}
+              </p>
+              <p
+                className={`mt-0.5 font-mono tracking-[0.14em] text-holo-cyan uppercase ${large ? "text-[10px]" : "text-[9px]"}`}
+              >
                 AI Developer · Automation Engineer
               </p>
             </div>

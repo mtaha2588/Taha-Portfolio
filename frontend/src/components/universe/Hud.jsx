@@ -106,7 +106,7 @@ export default function Hud() {
       {/* Station readout: desktop only, purely informational. */}
       {mode === "immersive" && !focused && (
         <div
-          className="pointer-events-none fixed bottom-8 left-3 z-30 hidden rotate-180 font-mono text-[10px] tracking-[0.25em] text-fg-subtle uppercase [writing-mode:vertical-rl] xl:flex xl:items-center xl:gap-3"
+          className="pointer-events-none fixed bottom-8 left-3 z-30 hidden rotate-180 font-mono text-[10px] tracking-[0.25em] text-fg-subtle uppercase [writing-mode:vertical-rl] min-[1400px]:flex min-[1400px]:items-center min-[1400px]:gap-3"
           aria-hidden="true"
         >
           <p>

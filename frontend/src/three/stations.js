@@ -17,7 +17,7 @@ export const STATIONS = [
     label: "Origin",
     // Globe sits to the right of the hero text on desktop, low on phones like a horizon.
     desktop: { pos: [0, 0.8, 14], target: [-3.6, 0.1, 0] },
-    mobile: { pos: [0, -1.5, 23], target: [0, 7.2, 0] },
+    mobile: { pos: [0, -1.5, 23], target: [0, 10.5, 0] },
   },
   {
     id: "projects",
