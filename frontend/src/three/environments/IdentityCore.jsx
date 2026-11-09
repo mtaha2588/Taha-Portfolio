@@ -3,6 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { AdditiveBlending } from "three";
 import { universe } from "../../store/universe";
 import { profile } from "../../data/profile";
+import avatar from "../../assets/portrait/taha-avatar.webp";
 import { fibonacciSphere } from "../geo/sphere";
 import HoloRing from "../common/HoloRing";
 import HoloPanel, { PanelTitle } from "../common/HoloPanel";
@@ -114,7 +115,14 @@ function IdentityCard() {
   return (
     <HoloPanel position={[4.0, 4.6, 0.4]} width={230} near={24} accent="violet">
       <PanelTitle>Digital identity</PanelTitle>
-      <p className="font-display text-[15px] text-fg">{profile.name}</p>
+      <div className="flex items-center gap-2.5">
+        <img
+          src={avatar}
+          alt=""
+          className="h-10 w-10 rounded-full border border-holo-cyan/50 bg-[#0b1224] object-cover object-top shadow-[0_0_12px_-2px_rgba(0,229,255,0.7)]"
+        />
+        <p className="font-display text-[15px] text-fg">{profile.name}</p>
+      </div>
       <p className="mt-0.5 text-cyan">{profile.title}</p>
       {profile.availability.open && (
         <p className="mt-2 flex items-center gap-1.5 text-emerald-300">

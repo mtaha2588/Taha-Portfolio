@@ -5,6 +5,7 @@ import { useUniverse } from "../../store/universe";
 import { scrollToSection } from "../../hooks/useScrollStations";
 import SocialLinks from "../ui/SocialLinks";
 import NetworkGlobe from "../hero/NetworkGlobe";
+import avatar from "../../assets/portrait/taha-avatar.webp";
 
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } } };
 const item = {
@@ -37,11 +38,21 @@ export default function HeroSection() {
               <button
                 type="button"
                 onClick={() => scrollToSection("contact")}
-                className="glass inline-flex items-center gap-2.5 rounded-full py-1.5 pr-4 pl-2.5 text-sm text-fg-muted transition-colors hover:text-fg"
+                className="glass inline-flex items-center gap-3 rounded-full py-1 pr-4 pl-1 text-sm text-fg-muted transition-colors hover:text-fg"
               >
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping-soft absolute inset-0 rounded-full bg-signal" />
-                  <span className="relative h-2.5 w-2.5 rounded-full bg-signal" />
+                {/* Avatar with gradient ring and live status dot */}
+                <span className="relative h-9 w-9 shrink-0 rounded-full bg-gradient-to-br from-holo-cyan via-holo-blue to-holo-purple p-[1.5px] shadow-[0_0_14px_-2px_rgba(0,229,255,0.6)]">
+                  <img
+                    src={avatar}
+                    alt=""
+                    width="80"
+                    height="80"
+                    className="h-full w-full rounded-full bg-[radial-gradient(circle_at_50%_35%,#1a2a55,#0b1224)] object-cover object-top"
+                  />
+                  <span className="absolute -right-0.5 -bottom-0.5 flex h-2.5 w-2.5">
+                    <span className="animate-ping-soft absolute inset-0 rounded-full bg-signal" />
+                    <span className="relative h-2.5 w-2.5 rounded-full border border-ink-950 bg-signal" />
+                  </span>
                 </span>
                 {profile.availability.label}
               </button>

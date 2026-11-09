@@ -462,3 +462,217 @@
     display: none;
   }
 }
+
+/* ------------------------------------------------------------------
+   Holographic portrait (components/ui/HoloPortrait.jsx)
+   Depth layers inside a tilting card: backdrop (-40px) → light column
+   (-20px) → photo (30px) → holo effects masked to the silhouette →
+   HUD + nameplate (55px). The photo itself stays natural.
+------------------------------------------------------------------- */
+.hp-scene {
+  position: relative;
+  perspective: 1100px;
+}
+.hp-card {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 1.35rem;
+  transform-style: preserve-3d;
+  background: radial-gradient(120% 90% at 50% 18%, #13224a 0%, #0b1224 48%, #050915 100%);
+  box-shadow:
+    -12px 0 40px -20px rgb(0 229 255 / 0.6),
+    12px 0 40px -20px rgb(139 92 246 / 0.6),
+    0 30px 70px -30px rgb(0 0 0 / 0.95);
+}
+.hp-card::before {
+  /* neon gradient edge */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: linear-gradient(150deg, #00e5ff, #2563ff 40%, #8b5cf6 75%, #d946ef);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.hp-clip {
+  /* clips the inner layers to the rounded card without flattening 3D */
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+.hp-backdrop {
+  position: absolute;
+  inset: -8%;
+  transform: translateZ(-40px);
+  background-image:
+    linear-gradient(to right, rgb(0 229 255 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(0 229 255 / 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 75%);
+}
+.hp-rings {
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  width: 92%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%) translateZ(-28px);
+}
+.hp-rings .hp-spin {
+  transform-origin: 50% 50%;
+  animation: hp-spin 26s linear infinite;
+}
+.hp-rings .hp-spin-rev {
+  transform-origin: 50% 50%;
+  animation: hp-spin 38s linear infinite reverse;
+}
+.hp-column {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  top: 0;
+  bottom: 0;
+  transform: translateZ(-20px);
+  background: radial-gradient(
+    ellipse 50% 60% at 50% 40%,
+    rgb(37 99 255 / 0.28),
+    rgb(139 92 246 / 0.1) 55%,
+    transparent 75%
+  );
+}
+.hp-figure {
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  bottom: -7%;
+  aspect-ratio: 640 / 651;
+  transform: translateZ(30px);
+  /* fade the chest into the card */
+  mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+}
+.hp-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  /* cyan rim light on the left, violet on the right: chromatic hologram edge */
+  filter: drop-shadow(-2px 0 0 rgb(0 229 255 / 0.55)) drop-shadow(2px 0 0 rgb(217 70 239 / 0.4))
+    drop-shadow(0 0 14px rgb(37 99 255 / 0.45)) saturate(1.04) contrast(1.03);
+}
+/* Effects confined to the silhouette via mask (set inline to the portrait image) */
+.hp-fx {
+  position: absolute;
+  inset: 0;
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  pointer-events: none;
+}
+.hp-scanlines {
+  background: repeating-linear-gradient(to bottom, rgb(0 229 255 / 0.07) 0 1px, transparent 1px 4px);
+  mix-blend-mode: screen;
+}
+.hp-tint {
+  /* cool holographic tint, strongest toward the bottom so the face stays natural */
+  background: linear-gradient(to bottom, transparent 35%, rgb(37 99 255 / 0.18) 75%, rgb(139 92 246 / 0.3));
+  mix-blend-mode: screen;
+}
+.hp-scanbeam {
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    rgb(0 229 255 / 0) 42%,
+    rgb(0 229 255 / 0.28) 50%,
+    rgb(0 229 255 / 0) 58%,
+    transparent 100%
+  );
+  background-size: 100% 260%;
+  animation: hp-scan 5.5s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+.hp-sheen {
+  background: radial-gradient(
+    38% 30% at var(--hp-x, 30%) var(--hp-y, 20%),
+    rgb(255 255 255 / 0.16),
+    rgb(0 229 255 / 0.08) 40%,
+    transparent 70%
+  );
+  mix-blend-mode: soft-light;
+}
+.hp-hud {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(55px);
+  pointer-events: none;
+}
+.hp-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: rgb(0 229 255 / 0.85);
+}
+.hp-plate {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  bottom: 6%;
+  border-radius: 0.8rem;
+  border: 1px solid rgb(0 229 255 / 0.3);
+  background: linear-gradient(120deg, rgb(11 18 36 / 0.78), rgb(20 24 60 / 0.7));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow:
+    0 10px 30px -12px rgb(0 0 0 / 0.9),
+    inset 0 1px 0 rgb(255 255 255 / 0.07);
+}
+.hp-base {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: -26px;
+  height: 52px;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(ellipse at center, rgb(0 229 255 / 0.25) 0 1px, transparent 2px 12px),
+    radial-gradient(ellipse at center, rgb(37 99 255 / 0.4), rgb(139 92 246 / 0.15) 50%, transparent 72%);
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 72%);
+  pointer-events: none;
+}
+
+@keyframes hp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes hp-scan {
+  0% {
+    background-position: 0 100%;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hp-rings .hp-spin,
+  .hp-rings .hp-spin-rev,
+  .hp-scanbeam {
+    animation: none !important;
+  }
+  .hp-scanbeam {
+    display: none;
+  }
+}
