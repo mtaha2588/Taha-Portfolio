@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
+import { HTML_LAYER } from "../common/htmlLayer";
 import {
   AdditiveBlending,
   BufferGeometry,
@@ -237,7 +238,7 @@ function StageNode({ stage, index, reduced }) {
         intensity={glow}
         reduced={reduced}
       />
-      <Html position={[0, 0.85, 0]} center zIndexRange={[6, 0]} style={{ pointerEvents: "none" }}>
+      <Html portal={HTML_LAYER} position={[0, 0.85, 0]} center zIndexRange={[6, 0]} style={{ pointerEvents: "none" }}>
         <p
           ref={label}
           style={{ opacity: 0 }}

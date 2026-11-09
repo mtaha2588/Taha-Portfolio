@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
+import { HTML_LAYER } from "../common/htmlLayer";
 import { AdditiveBlending, Color, Vector3 } from "three";
 import { exhibits, useExhibits } from "../../store/exhibits";
 import { SAMPLE_INVENTORY } from "../../data/sampleInventory";
@@ -213,7 +214,7 @@ function Miniature({ vehicle, position, faceAngle, selected, reduced }) {
         <boxGeometry args={[1.8, 0.8, 1]} />
         <meshBasicMaterial colorWrite={false} depthWrite={false} />
       </mesh>
-      <Html position={[0, -0.35, 0]} center zIndexRange={[6, 0]} style={{ pointerEvents: "none" }}>
+      <Html portal={HTML_LAYER} position={[0, -0.35, 0]} center zIndexRange={[6, 0]} style={{ pointerEvents: "none" }}>
         <p
           ref={label}
           style={{ opacity: 0 }}

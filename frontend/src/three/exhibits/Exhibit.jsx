@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
+import { HTML_LAYER } from "../common/htmlLayer";
 import { AdditiveBlending, Color, Vector3 } from "three";
 import { exhibits } from "../../store/exhibits";
+import { motion } from "../../store/universe";
 import { focusExhibit } from "../../lib/focus";
 import HoloRing from "../common/HoloRing";
 
@@ -93,6 +95,7 @@ export default function Exhibit({
   const label = useRef();
   const glow = useRef(0);
   const dim = useRef(0);
+  const presence = useRef(0); // 0 while the camera is on the hero, 1 from the overview onwards
   const drag = useRef({ active: false, x: 0, moved: 0, vel: 0 });
   const world = useMemo(() => new Vector3(...ex.position), [ex.position]);
 
@@ -128,10 +131,12 @@ export default function Exhibit({
     dim.current += ((focused && !isFocused ? 1 : 0) - dim.current) * k;
     const t = reduced ? 0 : state.clock.elapsedTime;
     group.current.position.y = ex.position[1] + Math.sin(t * 0.5 + index * 2.1) * 0.12 - dim.current * 3;
-    group.current.scale.setScalar(1 - dim.current * 0.35);
+    // Keep the hero uncluttered (globe only): exhibits scale in once the camera leaves station 0.
+    presence.current += ((motion.station > 0.45 || focused ? 1 : 0) - presence.current) * (1 - Math.exp(-dt * 3));
+    group.current.scale.setScalar(Math.max(0.001, presence.current) * (1 - dim.current * 0.35));
     const d = state.camera.position.distanceTo(world);
     // Only needs to be visible up to the overview shot (~61 units from the agent exhibit).
-    group.current.visible = d < 64;
+    group.current.visible = d < 64 && presence.current > 0.01;
 
     glow.current += ((hovered === ex.key ? 1 : isFocused ? 0.7 : 0) - glow.current) * k;
 
@@ -148,7 +153,7 @@ export default function Exhibit({
     }
 
     if (label.current) {
-      const o = focused ? 0 : Math.min(1, Math.max(0, (d - 32) / 8));
+      const o = focused ? 0 : Math.min(1, Math.max(0, (d - 32) / 8)) * presence.current;
       label.current.style.opacity = o.toFixed(3);
       label.current.style.pointerEvents = o > 0.5 ? "auto" : "none";
     }
@@ -205,7 +210,7 @@ export default function Exhibit({
         <meshBasicMaterial colorWrite={false} depthWrite={false} />
       </mesh>
 
-      <Html position={[0, hitHeight + 1.2, 0]} center zIndexRange={[6, 0]}>
+      <Html portal={HTML_LAYER} position={[0, hitHeight + 1.2, 0]} center zIndexRange={[6, 0]}>
         <button
           ref={label}
           type="button"

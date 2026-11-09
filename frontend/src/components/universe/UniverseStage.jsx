@@ -1,6 +1,7 @@
-import { Component, Suspense, lazy } from "react";
+import { Component, Suspense, lazy, useState } from "react";
 import { universe, useUniverse } from "../../store/universe";
 import BackgroundCanvas from "../layout/BackgroundCanvas";
+import { HTML_LAYER } from "../../three/common/htmlLayer";
 
 // three.js + scene code lives in its own chunk, downloaded only in 3D mode.
 const UniverseCanvas = lazy(() => import("../../three/UniverseCanvas"));
@@ -21,24 +22,44 @@ class WebGLBoundary extends Component {
 }
 
 /**
- * Mounted once for the whole app (see App.jsx) and only hidden + paused on
- * other pages. Returning to the universe is then instant, and the 3D scene
- * is never torn down mid page-transition.
+ * Mounted once for the whole app (see App.jsx). Once the 3D scene has
+ * started it is never torn down: on other pages, or when the visitor
+ * switches "3D Off", it is only hidden and paused (frameloop "never").
+ * Tearing it down mid-render crashed React (removeChild) because the
+ * scene's floating HTML panels live in their own DOM roots.
  */
 export default function UniverseStage({ active = true }) {
   const mode = useUniverse((s) => s.mode);
-  if (mode === "lite") return active ? <BackgroundCanvas /> : null;
+  const immersive = mode === "immersive";
+  // The canvas is only created the first time 3D is actually wanted (never for no-WebGL devices).
+  const [started, setStarted] = useState(immersive);
+  if (immersive && !started) setStarted(true);
+
+  const showCanvas = active && immersive;
   return (
-    <div
-      className="fixed inset-0 z-0 bg-[#02040a]"
-      style={{ visibility: active ? "visible" : "hidden" }}
-      aria-hidden={!active}
-    >
-      <WebGLBoundary>
-        <Suspense fallback={null}>
-          <UniverseCanvas active={active} />
-        </Suspense>
-      </WebGLBoundary>
-    </div>
+    <>
+      {active && !immersive && <BackgroundCanvas />}
+      {started && (
+        <div
+          className="fixed inset-0 z-0 bg-[#02040a]"
+          style={{ visibility: showCanvas ? "visible" : "hidden" }}
+          aria-hidden={!showCanvas}
+        >
+          <WebGLBoundary>
+            <Suspense fallback={null}>
+              <UniverseCanvas active={showCanvas} />
+            </Suspense>
+          </WebGLBoundary>
+          {/* Stable container for the scene's HTML labels and panels (see three/common/htmlLayer.js).
+              The ref is attached before the lazily loaded scene renders its first frame. */}
+          <div
+            ref={(el) => {
+              if (el) HTML_LAYER.current = el;
+            }}
+            className="pointer-events-none absolute inset-0 overflow-hidden"
+          />
+        </div>
+      )}
+    </>
   );
 }

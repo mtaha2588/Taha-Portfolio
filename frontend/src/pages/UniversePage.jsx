@@ -90,7 +90,8 @@ export default function UniversePage() {
       <main
         id="main"
         aria-hidden={focused ? true : undefined}
-        className={`relative z-10 transition-opacity duration-700 ${focused ? "pointer-events-none opacity-0" : "opacity-100"}`}
+        // pointer-events-none on <main> itself: only its panels take clicks, so pointer events reach the 3D scene behind it.
+        className={`pointer-events-none relative z-10 transition-opacity duration-700 ${focused ? "opacity-0 [&_*]:!pointer-events-none" : "opacity-100"}`}
       >
         <HeroSection />
         <ExhibitionsOverview />

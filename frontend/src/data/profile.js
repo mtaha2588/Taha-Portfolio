@@ -7,13 +7,13 @@
  *
  * Empty strings ("") are treated as "not provided": the matching
  * link or button is hidden instead of showing a broken link.
- * While running `npm run dev`, a small notice in the corner lists
- * any fields that are still empty. It never appears in production.
+ * While running `npm run dev`, the browser console lists any fields
+ * that are still empty. That reminder never appears in production.
  */
 export const profile = {
-  name: "Your Name",
+  name: "Muhammad Taha",
   // Shown in the navbar logo. Usually your initials.
-  initials: "AI",
+  initials: "MT",
 
   title: "AI Developer | AI Automation Engineer | Full-Stack Developer",
   headline: "Building Intelligent Systems. Automating the Future.",

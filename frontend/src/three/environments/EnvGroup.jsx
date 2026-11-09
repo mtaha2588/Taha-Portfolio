@@ -1,6 +1,7 @@
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
+import { HTML_LAYER } from "../common/htmlLayer";
 import { Vector3 } from "three";
 
 /**
@@ -39,7 +40,7 @@ export function NearLabel({ position, near = 30, className = "", children }) {
   });
   return (
     <group ref={group} position={position}>
-      <Html center zIndexRange={[6, 0]} style={{ pointerEvents: "none" }}>
+      <Html portal={HTML_LAYER} center zIndexRange={[6, 0]} style={{ pointerEvents: "none" }}>
         <div
           ref={el}
           style={{ opacity: 0 }}

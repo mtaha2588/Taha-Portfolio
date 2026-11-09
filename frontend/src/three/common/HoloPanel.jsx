@@ -1,6 +1,7 @@
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
+import { HTML_LAYER } from "./htmlLayer";
 import { Vector3 } from "three";
 
 /**
@@ -37,7 +38,7 @@ export default function HoloPanel({
 
   return (
     <group ref={group} position={position} rotation-y={rotationY} scale={scale}>
-      <Html transform distanceFactor={5} zIndexRange={[5, 0]} style={{ pointerEvents: "none" }}>
+      <Html portal={HTML_LAYER} transform distanceFactor={5} zIndexRange={[5, 0]} style={{ pointerEvents: "none" }}>
         <div
           ref={el}
           aria-hidden="true"
