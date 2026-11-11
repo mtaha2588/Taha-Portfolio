@@ -188,13 +188,13 @@ Tables are created automatically on startup (`Base.metadata.create_all`). Once t
 
 ## Troubleshooting
 
-| Symptom                                          | Fix                                                                                                      |
-| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
-| `npm run setup` says Python 3.11+ not found      | Install Python 3.12 from python.org; on Windows tick "Add python.exe to PATH", then open a new terminal. |
-| `npm run setup` says Node is too old             | Install Node 22 LTS from nodejs.org (Vite needs 20.19+ or 22.12+).                                       |
-| `Port 5173` / `8000` already in use              | Another copy is still running: close it (Ctrl+C in its terminal) and run `npm run dev` again.            |
-| Demo panels say "API offline" locally            | Start the backend on port 8000.                                                                          |
-| Browser console shows a CORS error in production | `CORS_ORIGINS` must exactly match the Vercel URL (scheme included, no trailing slash).                   |
-| Contact form says the service isn't available    | `VITE_API_URL` wasn't set in Vercel when the site was built: set it and redeploy.                        |
-| 3D looks slow on a device                        | Use the **3D On/Off** switch; quality also lowers itself automatically.                                  |
-| Case-study URL gives 404 on Vercel               | Ensure the project's Root Directory is `frontend` so `vercel.json` (SPA rewrite) is used.                |
+| Symptom                                          | Fix                                                                                                                                                                               |
+| ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run setup` says Python 3.11+ not found      | Install Python 3.12 from python.org; on Windows tick "Add python.exe to PATH", then open a new terminal.                                                                          |
+| `npm run setup` says Node is too old             | Install Node 22 LTS from nodejs.org (Vite needs 20.19+ or 22.12+).                                                                                                                |
+| `Port 5173` / `8000` already in use              | Close the other copy (Ctrl+C in its terminal), or use other ports: `API_PORT=8010 WEB_PORT=5180 npm run dev` (PowerShell: `$env:API_PORT=8010; $env:WEB_PORT=5180; npm run dev`). |
+| Demo panels say "API offline" locally            | Start the backend on port 8000.                                                                                                                                                   |
+| Browser console shows a CORS error in production | `CORS_ORIGINS` must exactly match the Vercel URL (scheme included, no trailing slash).                                                                                            |
+| Contact form says the service isn't available    | `VITE_API_URL` wasn't set in Vercel when the site was built: set it and redeploy.                                                                                                 |
+| 3D looks slow on a device                        | Use the **3D On/Off** switch; quality also lowers itself automatically.                                                                                                           |
+| Case-study URL gives 404 on Vercel               | Ensure the project's Root Directory is `frontend` so `vercel.json` (SPA rewrite) is used.                                                                                         |
