@@ -1,0 +1,13 @@
+{
+  "name": "taha-portfolio",
+  "private": true,
+  "description": "AI Intelligence Universe: 3D portfolio (frontend/) + FastAPI backend (backend/). Root scripts work on Windows, macOS and Linux.",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "dev": "node scripts/dev.mjs",
+    "check": "node scripts/check.mjs"
+  }
+}

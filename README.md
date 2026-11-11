@@ -7,16 +7,16 @@ An immersive 3D developer portfolio for an **AI Developer · AI Automation Engin
 
 ## What's inside
 
-| Area | 3D environment | Live functionality |
-|---|---|---|
-| Opening | Cinematic intro: starfield, holographic globe materialising, camera sweep | Skippable (button / Esc), plays once per session |
-| Avalanche Intelligence Platform | Holographic mountain built from a DEM grid, scan beam, survey rings | Slope analysis (Horn's method) and rule-based terrain assessment |
-| AI Business Automation Agent | Point-cloud neural core with 4 workflow stages | Runs real triage / sales-summary workflows; 3D replays the step log |
-| AI-Enabled Car Sales Platform | Wireframe car showroom, six body types, inventory miniatures | Lead capture, scoring, simulated follow-ups, live pipeline |
-| AI Workflow Lab | Five-stage pipeline: collect → process → analyse → decide → output | Inspect each stage, run a packet through the pipeline |
-| Skills | Constellation of 8 skill areas linked by shared skills | Skills mapped to the projects that use them |
-| About | Identity core, `identity.json` editor panel | Profile from `profile.js` |
-| Contact | Transmission beacon | Validated, spam-protected form stored in the database (optional email) |
+| Area                            | 3D environment                                                            | Live functionality                                                     |
+| ------------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Opening                         | Cinematic intro: starfield, holographic globe materialising, camera sweep | Skippable (button / Esc), plays once per session                       |
+| Avalanche Intelligence Platform | Holographic mountain built from a DEM grid, scan beam, survey rings       | Slope analysis (Horn's method) and rule-based terrain assessment       |
+| AI Business Automation Agent    | Point-cloud neural core with 4 workflow stages                            | Runs real triage / sales-summary workflows; 3D replays the step log    |
+| AI-Enabled Car Sales Platform   | Wireframe car showroom, six body types, inventory miniatures              | Lead capture, scoring, simulated follow-ups, live pipeline             |
+| AI Workflow Lab                 | Five-stage pipeline: collect → process → analyse → decide → output        | Inspect each stage, run a packet through the pipeline                  |
+| Skills                          | Constellation of 8 skill areas linked by shared skills                    | Skills mapped to the projects that use them                            |
+| About                           | Identity core, `identity.json` editor panel                               | Profile from `profile.js`                                              |
+| Contact                         | Transmission beacon                                                       | Validated, spam-protected form stored in the database (optional email) |
 
 Also: focus mode (click an exhibit → camera close-up, drag to rotate, wheel to zoom, Esc to exit), full case-study pages at `/projects/<slug>`, a 2D fallback (no WebGL / "3D Off"), adaptive quality for low-power devices, and reduced-motion support.
 
@@ -41,34 +41,67 @@ AI-Developer-Portfolio/
 │   │   ├── models/ schemas/ services/ data/
 │   ├── tests/                pytest suite
 │   └── requirements.txt
+├── scripts/                  cross-platform setup / dev / check scripts (npm run setup | dev | check)
+├── package.json              root scripts only (no dependencies)
 └── render.yaml               Render blueprint (API + PostgreSQL)
 ```
 
-## 1. Run it locally (Windows PowerShell)
+## 1. Run it on any computer
 
-Requirements: Node.js 20+ and Python 3.12.
+### What to install first (one time)
+
+| Software    | Version            | Download                                                                      |
+| ----------- | ------------------ | ----------------------------------------------------------------------------- |
+| **Git**     | any recent         | https://git-scm.com/downloads                                                 |
+| **Node.js** | 22 LTS (or 20.19+) | https://nodejs.org                                                            |
+| **Python**  | 3.12 (3.11+ works) | https://www.python.org/downloads (Windows: tick **"Add python.exe to PATH"**) |
+
+### Quick start (Windows, macOS and Linux)
+
+```bash
+git clone https://github.com/mtaha2588/Taha-Portfolio.git
+cd Taha-Portfolio
+npm run setup     # one time: Python environment + packages, backend/.env, frontend packages
+npm run dev       # starts the backend and the website together (Ctrl+C stops both)
+```
+
+Then open **http://localhost:5173**. The API runs at http://localhost:8000 (docs at http://localhost:8000/docs).
+
+- `npm run setup` creates `backend/.venv`, installs the exact Python package versions from `backend/requirements.txt`, copies `backend/.env.example` to `backend/.env`, and installs the frontend packages exactly as locked in `frontend/package-lock.json`.
+- `npm run check` runs all quality checks: backend tests, lint, formatting and a production build.
+- No database setup is needed locally: a SQLite file (`backend/portfolio.db`) is created automatically.
+
+### Manual alternative (two terminals)
 
 **Backend** (terminal 1):
 
 ```powershell
+# Windows (PowerShell)
 cd backend
-python -m venv .venv                                   # first time only
-.venv\Scripts\python -m pip install -r requirements.txt # first time only
-Copy-Item .env.example .env                            # first time only
+python -m venv .venv
+.venv\Scripts\python -m pip install -r requirements.txt
+Copy-Item .env.example .env
 .venv\Scripts\python -m uvicorn app.main:app --reload --port 8000
 ```
 
-API docs: http://localhost:8000/docs · Health: http://localhost:8000/api/health
+```bash
+# macOS / Linux
+cd backend
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+cp .env.example .env
+.venv/bin/python -m uvicorn app.main:app --reload --port 8000
+```
 
-**Frontend** (terminal 2):
+**Frontend** (terminal 2, any OS):
 
-```powershell
+```bash
 cd frontend
-npm install      # first time only
+npm ci
 npm run dev
 ```
 
-Open http://localhost:5173. In development the frontend talks to `http://localhost:8000` automatically.
+In development the frontend talks to `http://localhost:8000` automatically.
 
 ## 2. Make it yours
 
@@ -94,6 +127,8 @@ Your service must accept and return the shapes defined in that project's `schema
 
 ## 3. Quality checks
 
+From the project root: `npm run check` (runs everything below). Or individually:
+
 ```powershell
 cd frontend
 npm run lint          # ESLint
@@ -108,14 +143,17 @@ cd ..\backend
 
 The frontend and backend are deployed separately, on different URLs.
 
-### a) Push to GitHub
+### a) GitHub
 
-Create an **empty** repository on GitHub (no README / .gitignore), then:
+The code lives at **https://github.com/mtaha2588/Taha-Portfolio**. After changing anything:
 
-```powershell
-git remote add origin https://github.com/<your-username>/<repo-name>.git
-git push -u origin main
+```bash
+git add -A
+git commit -m "Describe your change"
+git push
 ```
+
+Render and Vercel redeploy automatically on every push to `main` once they're connected.
 
 ### b) Backend on Render (recommended)
 
@@ -124,6 +162,7 @@ git push -u origin main
 3. After deploy, check `https://<your-api>.onrender.com/api/health` returns `"status": "ok"`.
 
 Notes:
+
 - Use PostgreSQL in production: Render's free web services have an ephemeral disk, so a SQLite file would be wiped on every deploy or restart. The app switches databases purely via `DATABASE_URL`.
 - Free Render services sleep when idle and take ~30–60 s to wake. The site handles this: 3D exhibits render from local data and the demo panels show "API offline · Retry" until the API answers.
 - Render's free PostgreSQL databases expire after a limited period; upgrade the plan or move to another Postgres provider (e.g. Neon, Supabase) by changing `DATABASE_URL`.
@@ -149,10 +188,13 @@ Tables are created automatically on startup (`Base.metadata.create_all`). Once t
 
 ## Troubleshooting
 
-| Symptom | Fix |
-|---|---|
-| Demo panels say "API offline" locally | Start the backend on port 8000. |
-| Browser console shows a CORS error in production | `CORS_ORIGINS` must exactly match the Vercel URL (scheme included, no trailing slash). |
-| Contact form says the service isn't available | `VITE_API_URL` wasn't set in Vercel when the site was built: set it and redeploy. |
-| 3D looks slow on a device | Use the **3D On/Off** switch; quality also lowers itself automatically. |
-| Case-study URL gives 404 on Vercel | Ensure the project's Root Directory is `frontend` so `vercel.json` (SPA rewrite) is used. |
+| Symptom                                          | Fix                                                                                                      |
+| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| `npm run setup` says Python 3.11+ not found      | Install Python 3.12 from python.org; on Windows tick "Add python.exe to PATH", then open a new terminal. |
+| `npm run setup` says Node is too old             | Install Node 22 LTS from nodejs.org (Vite needs 20.19+ or 22.12+).                                       |
+| `Port 5173` / `8000` already in use              | Another copy is still running: close it (Ctrl+C in its terminal) and run `npm run dev` again.            |
+| Demo panels say "API offline" locally            | Start the backend on port 8000.                                                                          |
+| Browser console shows a CORS error in production | `CORS_ORIGINS` must exactly match the Vercel URL (scheme included, no trailing slash).                   |
+| Contact form says the service isn't available    | `VITE_API_URL` wasn't set in Vercel when the site was built: set it and redeploy.                        |
+| 3D looks slow on a device                        | Use the **3D On/Off** switch; quality also lowers itself automatically.                                  |
+| Case-study URL gives 404 on Vercel               | Ensure the project's Root Directory is `frontend` so `vercel.json` (SPA rewrite) is used.                |

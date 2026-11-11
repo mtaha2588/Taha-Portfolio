@@ -1,17 +1,20 @@
-# Portfolio backend (FastAPI). Install inside the backend virtual environment:
+# Portfolio backend (FastAPI). Exact versions = the versions this project was tested with,
+# so every machine installs the same thing. Python 3.11+ (developed on 3.12).
+#   npm run setup            (from the project root: creates .venv and installs these), or manually:
 #   python -m venv .venv
-#   .venv\Scripts\python -m pip install -r requirements.txt
-fastapi>=0.115
-uvicorn[standard]>=0.30
-pydantic>=2.8
-pydantic-settings>=2.4
-python-dotenv>=1.0
-email-validator>=2.2
-sqlalchemy>=2.0
+#   Windows:      .venv\Scripts\python -m pip install -r requirements.txt
+#   macOS/Linux:  .venv/bin/python -m pip install -r requirements.txt
+fastapi==0.162.2
+uvicorn[standard]==0.54.0
+pydantic==2.14.3
+pydantic-settings==2.16.2
+python-dotenv==1.2.4
+email-validator==2.3.0
+SQLAlchemy==2.1.8
 # PostgreSQL driver (production database). Not used with the default SQLite.
-psycopg[binary]>=3.2
+psycopg[binary]==3.3.8
 # Used to forward demo requests to your real project services (see *_SERVICE_URL in .env.example)
-httpx>=0.27
+httpx==0.28.1
 
 # Development / testing
-pytest>=8.3
+pytest==9.2.0
